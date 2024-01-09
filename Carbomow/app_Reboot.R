@@ -7,7 +7,7 @@ library(plotly)
 library(dplyr)
 
 ui <- fluidPage(
-  titlePanel("Golf Course Carbon Stocks Dashboard"),
+  titlePanel("CARBOMOW: CARbon Balance and Optimization Model for golf course moWing"),
   sidebarLayout(
     sidebarPanel(
       selectInput("grassSpecies", "Grass Species", 

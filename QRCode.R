@@ -2,6 +2,6 @@
 
 
 library(qrcode)
-code <- qr_code("https://kqcmew-hayden0bock.shinyapps.io/CARBOMOW/")
+code <- qr_code("https://kqcmew-hayden0bock.shinyapps.io/CARBOWMOW/")
 print(code)
 plot(code)
