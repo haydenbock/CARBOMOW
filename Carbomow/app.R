@@ -19,7 +19,7 @@ ui <- fluidPage(
       sliderInput("irrigationFrequency", "Irrigation Frequency (days)", min = 1, max = 7, value = 3),
       sliderInput("irrigationQuantity", "Irrigation Quantity (inches)", min = 0.1, max = 1.0, step = 0.1, value = 0.5),
       actionButton("simulate", "Simulate"),
-      checkboxInput("includeWeather", "Include Weather Data", value = FALSE)
+      checkboxInput("includeWeather", "Include My Local Weather Data", value = FALSE)
     ),
     mainPanel(
       plotlyOutput("carbonPlot")
@@ -38,17 +38,17 @@ server <- function(input, output) {
     
     # Set starting carbon stock based on grass species
     species_base_carbon <- switch(input$grassSpecies,
-                                  "Creeping Bentgrass" = 100,
-                                  "Bermudagrass" = 120,
-                                  "Tall Fescue" = 110,
-                                  "Kentucky Bluegrass" = 105)
+                                  "Creeping Bentgrass" = 55,
+                                  "Bermudagrass" = 59,
+                                  "Tall Fescue" = 38,
+                                  "Kentucky Bluegrass" = 49)
     
     previous_year_carbon <- species_base_carbon
     
     for (i in 1:length(dates)) {
       month <- as.numeric(format(dates[i], "%m"))
       year_number <- as.numeric(format(dates[i], "%Y")) - 2022  # Year number since start
-      year_factor <- (1 + 0.1) ^ (year_number - 1)  # 10% increase each year
+      year_factor <- (1 + 0.03) ^ (year_number - 1)  # 10% increase each year
       
       # Growth factors based on user inputs
       mow_height_factor <- 1 - (input$mowHeight - 1) * 0.02
@@ -73,12 +73,12 @@ server <- function(input, output) {
       carbon_data$AdjustedCarbon <- carbon_data$CarbonStock * carbon_data$WeatherEffect
     }
     
-    # Plotting the data
     output$carbonPlot <- renderPlotly({
-      p <- plot_ly(carbon_data, x = ~Date, y = ~CarbonStock, type = 'scatter', mode = 'lines+markers', name = "mg C/kg soil")
+      p <- plot_ly(carbon_data, x = ~Date, y = ~CarbonStock, type = 'scatter', mode = 'lines+markers', name = "Carbon Stock")
       if (input$includeWeather) {
         p <- add_trace(p, x = ~Date, y = ~AdjustedCarbon, type = 'scatter', mode = 'lines+markers', name = "Adjusted for Weather")
       }
+      p <- p %>% layout(yaxis = list(title = 'g C/kg soil'))  # Setting Y-axis label
       p
     })
   })
