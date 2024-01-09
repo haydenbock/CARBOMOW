@@ -21,7 +21,7 @@ ui <- fluidPage(
     ),
     mainPanel(
       p("Created by Hayden Bock"),
-      em("Note: this is for demonstration purposes, outputs are rough approximations only"),
+      em("Note: This is for demonstration purposes, outputs are rough approximations only."),
       plotlyOutput("carbonPlot")
     )
   )
