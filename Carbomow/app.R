@@ -75,7 +75,7 @@ server <- function(input, output) {
     
     # Plotting the data
     output$carbonPlot <- renderPlotly({
-      p <- plot_ly(carbon_data, x = ~Date, y = ~CarbonStock, type = 'scatter', mode = 'lines+markers', name = "Carbon Stock")
+      p <- plot_ly(carbon_data, x = ~Date, y = ~CarbonStock, type = 'scatter', mode = 'lines+markers', name = "mg C/kg soil")
       if (input$includeWeather) {
         p <- add_trace(p, x = ~Date, y = ~AdjustedCarbon, type = 'scatter', mode = 'lines+markers', name = "Adjusted for Weather")
       }
