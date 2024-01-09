@@ -9,7 +9,7 @@ library(dplyr)
 
 
 ui <- fluidPage(
-  titlePanel("CARBOMOW: CARbon Balance and Optimization Model for golf course moWing"),
+  titlePanel("Golf Course Carbon Stocks Dashboard"),
   sidebarLayout(
     sidebarPanel(
       selectInput("grassSpecies", "Grass Species", 
@@ -19,10 +19,9 @@ ui <- fluidPage(
       sliderInput("irrigationFrequency", "Irrigation Frequency (days)", min = 1, max = 7, value = 3),
       sliderInput("irrigationQuantity", "Irrigation Quantity (inches)", min = 0.1, max = 1.0, step = 0.1, value = 0.5),
       actionButton("simulate", "Simulate"),
+      checkboxInput("includeWeather", "Include Weather Data", value = FALSE)
     ),
     mainPanel(
-      p("Created by Hayden Bock"),
-      em("Note: Values are only approximations, this is a simplified simulation"),
       plotlyOutput("carbonPlot")
     )
   )
@@ -84,7 +83,6 @@ server <- function(input, output) {
     })
   })
 }
-
 
 
                          
